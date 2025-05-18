@@ -1,0 +1,16 @@
+version: "3.9"
+
+services:
+  python-app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    container_name: python-app
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix        # Montage pour le socket X11
+      - .:/app                               # Montage du répertoire de travail
+    environment:
+      - DISPLAY=host.docker.internal:0.0     # Serveur X11 sur Windows
+    working_dir: /app
+    stdin_open: true                         # Garde stdin ouvert
+    tty: true                                # Alloue un pseudo-TTY
