@@ -1,0 +1,3 @@
+[01-Dec-2024 18:12:53 Europe/Paris] Requête UPDATE générée : UPDATE `Group` SET `name` = ? WHERE `name` = ?
+[01-Dec-2024 18:12:53 Europe/Paris] Valeurs pour UPDATE : ["ouioui","test"]
+[01-Dec-2024 18:12:53 Europe/Paris] Aucune ligne mise à jour. Vérifiez les critères de mise à jour.

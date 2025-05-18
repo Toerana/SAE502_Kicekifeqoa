@@ -1,0 +1,139 @@
+Delete User
+===============
+
+Ce module permet de se connecter à une base de données MySQL et de supprimer des utilisateurs via une requête DELETE envoyée à une API PHP.
+
+Configuration de l'API
+----------------------
+
+L'URL de l'API est définie comme suit :
+
+.. code-block:: python
+
+    url = "https://kicekifeqoa.alwaysdata.net/api.php"
+
+Configuration de la Connexion MySQL
+-----------------------------------
+
+.. code-block:: python
+
+    config = {
+        'user': '379269_admin',
+        'password': 'Kicekifeqoa123*',
+        'host': 'mysql-kicekifeqoa.alwaysdata.net',
+        'database': 'kicekifeqoa_todolist',
+    }
+
+Fonctions
+---------
+
+.. function:: close_connection_BDD(conn, cursor)
+
+    Ferme proprement la connexion à la base de données.
+
+    :param conn: L'objet de connexion à la base de données.
+    :type conn: mysql.connector.connection.MySQLConnection
+    :param cursor: Le curseur de la base de données.
+    :type cursor: mysql.connector.cursor.CursorBase
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        close_connection_BDD(conn, cursor)
+
+---
+
+.. function:: delete_user(table, column, value)
+
+    Supprime un utilisateur de la base de données en envoyant une requête DELETE à l'API.
+
+    :param table: Le nom de la table où se trouve l'utilisateur.
+    :type table: str
+    :param column: La colonne utilisée pour identifier l'utilisateur.
+    :type column: str
+    :param value: La valeur de la colonne pour identifier l'enregistrement à supprimer.
+    :type value: str
+    :return: Aucun retour explicite, ferme la connexion après l'exécution.
+    :rtype: None
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        delete_user("Users", "email", "user@example.com")
+
+    Exemple de `post_data` envoyé à l'API :
+
+    .. code-block:: json
+
+        {
+            "table": "Users",
+            "column": "email",
+            "value": "user@example.com"
+        }
+
+    Exemple de sortie en cas de succès :
+
+    .. code-block:: python
+
+        {"status": "success", "message": "User deleted successfully"}
+
+    En cas d'erreur :
+
+    .. code-block:: python
+
+        {"status": "error", "message": "User not found"}
+
+---
+
+Variables Globales
+------------------
+
+.. data:: url
+
+    URL de l'API PHP pour les requêtes DELETE.
+
+    :type: str
+
+    **Valeur :** ``"https://kicekifeqoa.alwaysdata.net/api.php"``
+
+.. data:: config
+
+    Configuration de connexion à la base de données MySQL.
+
+    :type: dict
+
+    Exemple :
+
+    .. code-block:: python
+
+        {
+            'user': '379269_admin',
+            'password': 'Kicekifeqoa123*',
+            'host': 'mysql-kicekifeqoa.alwaysdata.net',
+            'database': 'kicekifeqoa_todolist',
+        }
+
+Exemple Complet
+---------------
+
+.. code-block:: python
+
+    from mysql.connector import (connection)
+    import requests
+
+    # Configuration de la connexion
+    config = {
+        'user': '379269_admin',
+        'password': 'Kicekifeqoa123*',
+        'host': 'mysql-kicekifeqoa.alwaysdata.net',
+        'database': 'kicekifeqoa_todolist',
+    }
+
+    # Connexion à la base de données
+    conn = connection.MySQLConnection(**config)
+    cursor = conn.cursor()
+
+    # Suppression d'un utilisateur
+    delete_user("Users", "email", "user@example.com")

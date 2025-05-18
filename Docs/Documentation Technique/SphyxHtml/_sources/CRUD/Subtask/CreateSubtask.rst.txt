@@ -1,0 +1,93 @@
+Create Subtask
+======================
+
+Ce module permet de créer des sous-tâches en utilisant une API PHP et une connexion MySQL.
+
+Configuration de l'API
+----------------------
+
+L'URL de l'API est définie comme suit :
+
+.. code-block:: python
+
+    url = "https://kicekifeqoa.alwaysdata.net/api.php"
+
+Configuration de la Connexion MySQL
+-----------------------------------
+
+.. code-block:: python
+
+    config = {
+        'user': '379269_admin',
+        'password': 'Kicekifeqoa123*',
+        'host': 'mysql-kicekifeqoa.alwaysdata.net',
+        'database': 'kicekifeqoa_todolist',
+    }
+
+Fonctions
+---------
+
+.. function:: close_connection_BDD(conn, cursor)
+
+    Ferme proprement la connexion à la base de données.
+
+    :param conn: L'objet de connexion à la base de données.
+    :type conn: mysql.connector.connection.MySQLConnection
+    :param cursor: Le curseur de la base de données.
+    :type cursor: mysql.connector.cursor.CursorBase
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        close_connection_BDD(conn, cursor)
+
+---
+
+.. function:: create_subtask(table, data)
+
+    Crée une nouvelle sous-tâche en envoyant une requête POST à l'API.
+
+    :param table: Le nom de la table où insérer la sous-tâche (par exemple, `"Subtask"`).
+    :type table: str
+    :param data: Un dictionnaire contenant les colonnes et les valeurs à insérer pour la sous-tâche.
+    :type data: dict
+    :return: Aucun retour explicite, affiche la réponse de l'API ou un message d'erreur en cas d'échec.
+    :rtype: None
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        data = {
+            "name": "Nettoyer la cuisine",
+            "task_id": 5,
+            "due_date": "2024-06-01 10:00:00"
+        }
+        create_subtask("Subtask", data)
+
+    Exemple de `post_data` envoyé à l'API :
+
+    .. code-block:: json
+
+        {
+            "table": "Subtask",
+            "action": "insert",
+            "data": {
+                "name": "Nettoyer la cuisine",
+                "task_id": 5,
+                "due_date": "2024-06-01 10:00:00"
+            }
+        }
+
+    Exemple de sortie en cas de succès :
+
+    .. code-block:: python
+
+        {"status": "success", "message": "Subtask inserted successfully"}
+
+    En cas d'erreur lors de l'insertion, le message suivant sera affiché :
+
+    .. code-block:: text
+
+        Erreur lors de l'insertion : [détails de l'erreur]

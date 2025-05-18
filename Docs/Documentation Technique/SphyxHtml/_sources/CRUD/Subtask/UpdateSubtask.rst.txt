@@ -1,0 +1,80 @@
+Update Subtask
+==================
+
+Ce module permet de mettre à jour des sous-tâches en utilisant une API PHP.
+
+Configuration de l'API
+----------------------
+
+L'URL de l'API est définie comme suit :
+
+.. code-block:: python
+
+    url = "https://kicekifeqoa.alwaysdata.net/api.php"
+
+Fonctions
+---------
+
+.. function:: update_subtask(id_subtask, id_affected_task=None, name=None, end_date=None, checked=None)
+
+    Met à jour une sous-tâche en envoyant une requête POST à l'API.
+
+    :param id_subtask: L'ID de la sous-tâche à mettre à jour.
+    :type id_subtask: int
+    :param id_affected_task: L'ID de la tâche principale associée à la sous-tâche.
+    :type id_affected_task: int, optionnel
+    :param name: Le nouveau nom de la sous-tâche.
+    :type name: str, optionnel
+    :param end_date: La nouvelle date d'échéance au format `'YYYY-MM-DD HH:MM:SS'`.
+    :type end_date: str, optionnel
+    :param checked: Le nouvel état de vérification (1 pour vérifié, 0 pour non vérifié).
+    :type checked: int, optionnel
+    :return: Un message indiquant le succès ou l'échec de la mise à jour.
+    :rtype: str
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        result = update_subtask(
+            id_subtask=12,
+            name="Nouvelle Sous-Tâche",
+            end_date="2024-10-20 15:30:00",
+            checked=1
+        )
+        print(result)
+
+    Exemple de `post_data` envoyé à l'API :
+
+    .. code-block:: json
+
+        {
+            "table": "Subtask",
+            "action": "update",
+            "data": {
+                "name": "Nouvelle Sous-Tâche",
+                "end_date": "2024-10-20 15:30:00",
+                "checked": 1
+            },
+            "column": "id_subtask",
+            "value": 12
+        }
+
+    Exemple de sortie en cas de succès :
+
+    .. code-block:: python
+
+        "Sous-tâche avec ID 12 mise à jour avec succès."
+
+    Exemple de sortie en cas d'erreur :
+
+    .. code-block:: python
+
+        "Erreur lors de la mise à jour : 400 - Bad Request"
+
+    En cas d'erreur de connexion à l'API :
+
+    .. code-block:: python
+
+        "Erreur de connexion à l'API : [détails de l'erreur]"
+

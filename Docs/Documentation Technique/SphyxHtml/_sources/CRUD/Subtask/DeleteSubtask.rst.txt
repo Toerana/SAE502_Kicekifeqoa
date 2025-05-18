@@ -1,0 +1,92 @@
+Delete Subtask
+====================
+
+Ce module permet de supprimer des sous-tâches en utilisant une API PHP et une connexion MySQL.
+
+Configuration de l'API
+----------------------
+
+L'URL de l'API est définie comme suit :
+
+.. code-block:: python
+
+    url = "https://kicekifeqoa.alwaysdata.net/api.php"
+
+Configuration de la Connexion MySQL
+-----------------------------------
+
+.. code-block:: python
+
+    config = {
+        'user': '379269_admin',
+        'password': 'Kicekifeqoa123*',
+        'host': 'mysql-kicekifeqoa.alwaysdata.net',
+        'database': 'kicekifeqoa_todolist',
+    }
+
+Fonctions
+---------
+
+.. function:: close_connection_BDD(conn, cursor)
+
+    Ferme proprement la connexion à la base de données et affiche un message de confirmation.
+
+    :param conn: L'objet de connexion à la base de données.
+    :type conn: mysql.connector.connection.MySQLConnection
+    :param cursor: Le curseur de la base de données.
+    :type cursor: mysql.connector.cursor.CursorBase
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        close_connection_BDD(conn, cursor)
+
+    Exemple de sortie :
+
+    .. code-block:: text
+
+        La connexion à la base de données a été fermée.
+
+---
+
+.. function:: delete_subtask(table, column, value)
+
+    Supprime une sous-tâche en envoyant une requête DELETE à l'API.
+
+    :param table: Le nom de la table où se trouve la sous-tâche (par exemple, `"Subtask"`).
+    :type table: str
+    :param column: Le nom de la colonne utilisée pour identifier la sous-tâche (par exemple, `"id_subtask"`).
+    :type column: str
+    :param value: La valeur de l'identifiant pour la suppression.
+    :type value: str
+    :return: Affiche la réponse JSON de l'API et ferme la connexion à la base de données.
+    :rtype: None
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        delete_subtask("Subtask", "id_subtask", "1")
+
+    Exemple de `post_data` envoyé à l'API :
+
+    .. code-block:: json
+
+        {
+            "table": "Subtask",
+            "column": "id_subtask",
+            "value": "1"
+        }
+
+    Exemple de sortie en cas de succès :
+
+    .. code-block:: python
+
+        {"status": "success", "message": "Subtask deleted successfully"}
+
+    Exemple de sortie en cas d'erreur :
+
+    .. code-block:: python
+
+        {"status": "error", "message": "Subtask not found"}

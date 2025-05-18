@@ -1,0 +1,127 @@
+Read User
+=============
+
+Ce module permet de récupérer des informations sur les utilisateurs, les groupes auxquels ils appartiennent, ainsi que les tâches et sous-tâches qui leur sont assignées via des requêtes API.
+
+Configuration de l'API
+----------------------
+
+L'URL de l'API est définie comme suit :
+
+.. code-block:: python
+
+    url = "https://kicekifeqoa.alwaysdata.net/api.php"
+
+Fonctions
+---------
+
+.. function:: get_data(table, columns='*', filter_column=None, filter_value=None, join_table=None, join_condition=None)
+
+    Récupère des données génériques d'une table avec des options de filtrage et de jointure.
+
+    :param table: Le nom de la table à interroger.
+    :type table: str
+    :param columns: Les colonnes à récupérer (par défaut `'*'` pour toutes les colonnes).
+    :type columns: str, optionnel
+    :param filter_column: La colonne utilisée pour le filtrage.
+    :type filter_column: str, optionnel
+    :param filter_value: La valeur utilisée pour le filtrage.
+    :type filter_value: str, optionnel
+    :param join_table: La table à joindre.
+    :type join_table: str, optionnel
+    :param join_condition: La condition de jointure.
+    :type join_condition: str, optionnel
+    :return: Un dictionnaire JSON contenant les résultats ou un message d'erreur.
+    :rtype: dict ou str
+
+---
+
+.. function:: get_users(id_user=None, email=None)
+
+    Récupère des informations sur les utilisateurs.
+
+    :param id_user: L'ID de l'utilisateur à rechercher.
+    :type id_user: int, optionnel
+    :param email: L'email de l'utilisateur à rechercher.
+    :type email: str, optionnel
+    :return: Une liste de dictionnaires contenant les informations des utilisateurs ou `'no existing links'` si aucune correspondance n'est trouvée.
+    :rtype: list ou str
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        users = get_users(id_user=1)
+        print(users)
+
+---
+
+.. function:: get_users_group(id_user=None)
+
+    Retourne les groupes auxquels appartient un utilisateur.
+
+    :param id_user: L'ID de l'utilisateur à rechercher.
+    :type id_user: int, optionnel
+    :return: Une liste de dictionnaires contenant l'ID de l'utilisateur, l'ID du groupe et le nom du groupe.
+    :rtype: list ou str
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        groups = get_users_group(id_user=3)
+        print(groups)
+
+    Exemple de sortie :
+
+    .. code-block:: python
+
+        [{'id_user': 3, 'group_id': 2, 'name': 'IT'}]
+
+---
+
+.. function:: get_users_task(id_user=None)
+
+    Retourne les tâches assignées à un utilisateur.
+
+    :param id_user: L'ID de l'utilisateur à rechercher.
+    :type id_user: int, optionnel
+    :return: Une liste de dictionnaires contenant l'ID de l'utilisateur, l'ID de la tâche et le nom de la tâche.
+    :rtype: list ou str
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        tasks = get_users_task(id_user=3)
+        print(tasks)
+
+    Exemple de sortie :
+
+    .. code-block:: python
+
+        [{'id_user': 3, 'task_id': 160, 'name': 'Faire le ménage'}]
+
+---
+
+.. function:: get_users_subtask(id_user=None)
+
+    Retourne les sous-tâches assignées à un utilisateur.
+
+    :param id_user: L'ID de l'utilisateur à rechercher.
+    :type id_user: int, optionnel
+    :return: Une liste de dictionnaires contenant l'ID de l'utilisateur, l'ID de la sous-tâche et le nom de la sous-tâche.
+    :rtype: list ou str
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        subtasks = get_users_subtask(id_user=3)
+        print(subtasks)
+
+    Exemple de sortie :
+
+    .. code-block:: python
+
+        [{'id_user': 3, 'subtask_id': 42, 'name': 'Nettoyer la cuisine'}]

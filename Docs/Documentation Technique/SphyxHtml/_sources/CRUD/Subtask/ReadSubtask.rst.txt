@@ -1,0 +1,93 @@
+Read Subtask
+=====================
+
+Ce module permet de récupérer des informations sur les sous-tâches en utilisant une API PHP avec des options de filtrage dynamiques.
+
+Configuration de l'API
+----------------------
+
+L'URL de l'API est définie comme suit :
+
+.. code-block:: python
+
+    url = "https://kicekifeqoa.alwaysdata.net/api.php"
+
+Fonctions
+---------
+
+.. function:: get_data(table, columns='*', filter_column=None, filter_value=None, join_table=None, join_condition=None)
+
+    Récupère des données génériques d'une table avec des options de filtrage et de jointure.
+
+    :param table: Le nom de la table à interroger.
+    :type table: str
+    :param columns: Les colonnes à récupérer (par défaut `'*'` pour toutes les colonnes).
+    :type columns: str, optionnel
+    :param filter_column: La colonne utilisée pour le filtrage.
+    :type filter_column: str, optionnel
+    :param filter_value: La valeur utilisée pour le filtrage.
+    :type filter_value: str, optionnel
+    :param join_table: La table à joindre.
+    :type join_table: str, optionnel
+    :param join_condition: La condition de jointure.
+    :type join_condition: str, optionnel
+    :return: Un dictionnaire JSON contenant les résultats ou un message d'erreur.
+    :rtype: dict ou str
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        data = get_data("Subtask", filter_column="id_subtask", filter_value=5)
+        print(data)
+
+---
+
+.. function:: get_subtask(id_subtask=None, id_affected_task=None, name=None, end_date=None, checked=None)
+
+    Récupère des informations sur une ou plusieurs sous-tâches en fonction des filtres fournis.
+
+    :param id_subtask: L'ID de la sous-tâche.
+    :type id_subtask: int, optionnel
+    :param id_affected_task: L'ID de la tâche principale associée à la sous-tâche.
+    :type id_affected_task: int, optionnel
+    :param name: Le nom de la sous-tâche.
+    :type name: str, optionnel
+    :param end_date: La date d'échéance de la sous-tâche au format `'YYYY-MM-DD HH:mm:SS'`.
+    :type end_date: str, optionnel
+    :param checked: Statut de la sous-tâche (1 pour cochée, 0 pour non cochée).
+    :type checked: int, optionnel
+    :return: Une liste de dictionnaires contenant les informations des sous-tâches ou `'no existing links'` si aucune correspondance n'est trouvée.
+    :rtype: list ou str
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        # Récupérer une sous-tâche par ID
+        subtask = get_subtask(id_subtask=10)
+        print(subtask)
+
+        # Récupérer des sous-tâches avec plusieurs filtres
+        subtasks = get_subtask(name="Faire le ménage", checked=0)
+        print(subtasks)
+
+    Exemple de sortie réussie :
+
+    .. code-block:: python
+
+        [
+            {
+                'id_subtask': 135,
+                'id_affected_task': 5,
+                'name': 'Nettoyer la cuisine',
+                'end_date': '2024-06-01 15:00:00',
+                'checked': 0
+            }
+        ]
+
+    Exemple de sortie en cas d'absence de correspondance :
+
+    .. code-block:: python
+
+        'no existing links'

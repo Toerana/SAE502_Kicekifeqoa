@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+
+<html lang="fr" data-content_root="../../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Update User &#8212; Documentation Docs Sphinx </title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=d1102ebc" />
+    <link rel="stylesheet" type="text/css" href="../../_static/basic.css?v=c058f7c8" />
+    <link rel="stylesheet" type="text/css" href="../../_static/alabaster.css?v=27fed22d" />
+    <script src="../../_static/documentation_options.js?v=d1a510d7"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/translations.js?v=041d0952"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="update-user">
+<h1>Update User<a class="headerlink" href="#update-user" title="Lien vers cette rubrique">¶</a></h1>
+<p>Ce module permet de vérifier, valider et mettre à jour les informations des utilisateurs en utilisant une API PHP. Il inclut des vérifications de doublons d’email, de sécurité du mot de passe et de validité de l’email.</p>
+<section id="configuration-de-l-api">
+<h2>Configuration de l’API<a class="headerlink" href="#configuration-de-l-api" title="Lien vers cette rubrique">¶</a></h2>
+<p>L’URL de l’API est définie comme suit :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://kicekifeqoa.alwaysdata.net/api.php&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="fonctions">
+<h2>Fonctions<a class="headerlink" href="#fonctions" title="Lien vers cette rubrique">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="verfication_doublon_email">
+<span class="sig-name descname"><span class="pre">verfication_doublon_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">E_mail</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#verfication_doublon_email" title="Lien vers cette définition">¶</a></dt>
+<dd><p>Vérifie si l’email existe déjà dans la base de données.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>E_mail</strong> (<em>str</em>) – L’adresse email à vérifier.</p>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>Une liste contenant un booléen et un message de confirmation ou d’erreur.</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<p>Exemple d’utilisation :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">verfication_doublon_email</span><span class="p">(</span><span class="s2">&quot;test@example.com&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># [True, &#39;Mail OK&#39;] ou [False, &#39;Mail Exist&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p>—</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="compliance_password">
+<span class="sig-name descname"><span class="pre">compliance_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Password</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#compliance_password" title="Lien vers cette définition">¶</a></dt>
+<dd><p>Vérifie si le mot de passe respecte les critères de sécurité.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>Password</strong> (<em>str</em>) – Le mot de passe à vérifier.</p>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>Une liste contenant un booléen et un message de confirmation ou d’erreur.</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Critères de conformité :</dt><dd><ul class="simple">
+<li><p>Au moins 8 caractères.</p></li>
+<li><p>Au maximum 72 caractères (limite de bcrypt).</p></li>
+<li><p>Contient au moins une lettre majuscule.</p></li>
+<li><p>Contient au moins une lettre minuscule.</p></li>
+<li><p>Contient au moins un chiffre.</p></li>
+<li><p>Contient au moins un caractère spécial parmi <cite>!&#64;#$%^&amp;*(),.?{}|&lt;&gt;</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Exemple d’utilisation :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">compliance_password</span><span class="p">(</span><span class="s2">&quot;P@ssw0rd123&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># [True, &#39;Pass OK&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p>—</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="is_valid_email">
+<span class="sig-name descname"><span class="pre">is_valid_email</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">email</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#is_valid_email" title="Lien vers cette définition">¶</a></dt>
+<dd><p>Vérifie si l’email est valide au niveau du format et de l’existence du domaine.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>email</strong> (<em>str</em>) – L’adresse email à vérifier.</p>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>Une liste contenant un booléen et un message de confirmation ou d’erreur.</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<p>Exemple d’utilisation :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">is_valid_email</span><span class="p">(</span><span class="s2">&quot;user@example.com&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># [True, &#39;Mail OK&#39;] ou [False, &#39;Mail NOK&#39;]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p>—</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="hash_password">
+<span class="sig-name descname"><span class="pre">hash_password</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">password</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#hash_password" title="Lien vers cette définition">¶</a></dt>
+<dd><p>Hache le mot de passe en utilisant bcrypt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>password</strong> (<em>str</em>) – Le mot de passe à hacher.</p>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>Le mot de passe haché au format <cite>bytes</cite>.</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bytes</p>
+</dd>
+</dl>
+<p>Exemple d’utilisation :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">hashed</span> <span class="o">=</span> <span class="n">hash_password</span><span class="p">(</span><span class="s2">&quot;MySecureP@ssword&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">hashed</span><span class="p">)</span>  <span class="c1"># b&#39;$2b$12$...&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<p>—</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="update_user">
+<span class="sig-name descname"><span class="pre">update_user</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id_user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">email</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">password</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#update_user" title="Lien vers cette définition">¶</a></dt>
+<dd><p>Met à jour un utilisateur en envoyant une requête POST à l’API.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>id_user</strong> (<em>int</em>) – L’ID de l’utilisateur à mettre à jour.</p></li>
+<li><p><strong>email</strong> (<em>str</em><em>, </em><em>optionnel</em>) – Le nouvel email de l’utilisateur.</p></li>
+<li><p><strong>password</strong> (<em>str</em><em>, </em><em>optionnel</em>) – Le nouveau mot de passe de l’utilisateur.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>Une liste contenant un booléen et un message de confirmation ou d’erreur.</p>
+</dd>
+<dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt><strong>Conditions :</strong></dt><dd><ul class="simple">
+<li><p>Si <cite>email</cite> est fourni, il sera validé et vérifié pour les doublons.</p></li>
+<li><p>Si <cite>password</cite> est fourni, il sera vérifié pour la conformité et haché avant l’envoi.</p></li>
+<li><p>Si <cite>email</cite> et <cite>password</cite> ne sont pas fournis, une erreur sera retournée.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Exemple d’utilisation :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">=</span> <span class="n">update_user</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="s2">&quot;newuser@example.com&quot;</span><span class="p">,</span> <span class="n">password</span><span class="o">=</span><span class="s2">&quot;P@ssw0rd123&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># [True, &#39;User OK&#39;] ou [False, &#39;Erreur message&#39;]</span>
+</pre></div>
+</div>
+<p>Exemple de <cite>post_data</cite> envoyé à l’API :</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;table&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Users&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;update&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;newuser@example.com&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;password&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;$2b$12$...&quot;</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;column&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;id_user&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Exemple de sortie en cas de succès :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;User OK&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Exemple de sortie en cas d’erreur :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;Erreur lors de la mise à jour : 400 - Bad Request&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../Documentation%20Sphinx.html">Docs Sphinx</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../Documentation%20Sphinx.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Kicekifeqoa.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.0.2</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../../_sources/CRUD/Users/UpdateUser.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

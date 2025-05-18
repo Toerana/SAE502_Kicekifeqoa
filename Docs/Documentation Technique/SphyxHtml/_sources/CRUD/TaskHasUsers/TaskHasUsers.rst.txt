@@ -1,0 +1,76 @@
+Task-User Association
+=========================
+
+Ce module permet d'associer des tâches à des utilisateurs en utilisant une API PHP et une connexion MySQL.
+
+Configuration de Connexion
+--------------------------
+
+.. code-block:: python
+
+    config = {
+        'user': '379269_admin',
+        'password': 'Kicekifeqoa123*',
+        'host': 'mysql-kicekifeqoa.alwaysdata.net',
+        'database': 'kicekifeqoa_todolist',
+    }
+
+Fonctions
+---------
+
+.. function:: close_connection_BDD(conn, cursor)
+
+    Ferme proprement la connexion à la base de données.
+
+    :param conn: L'objet de connexion à la base de données.
+    :type conn: mysql.connector.connection.MySQLConnection
+    :param cursor: Le curseur de la base de données.
+    :type cursor: mysql.connector.cursor.CursorBase
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        close_connection_BDD(conn, cursor)
+
+---
+
+.. function:: create_task_user_association(table, data)
+
+    Crée une association entre une tâche et un utilisateur en envoyant une requête POST à l'API.
+
+    :param table: Le nom de la table où insérer l'association (par exemple, `"Task_has_Users"`).
+    :type table: str
+    :param data: Un dictionnaire contenant les colonnes et valeurs pour l'association.
+    :type data: dict
+    :return: Aucun retour explicite, affiche une erreur en cas d'échec.
+    :rtype: None
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        data = {
+            "task_id": 1,
+            "user_id": 3
+        }
+        create_task_user_association("Task_has_Users", data)
+
+    Exemple de `post_data` envoyé à l'API :
+
+    .. code-block:: json
+
+        {
+            "table": "Task_has_Users",
+            "action": "insert",
+            "data": {
+                "task_id": 1,
+                "user_id": 3
+            }
+        }
+
+    En cas d'erreur lors de l'insertion, le message suivant sera affiché :
+
+    .. code-block:: text
+
+        Erreur lors de l'insertion : [détails de l'erreur]

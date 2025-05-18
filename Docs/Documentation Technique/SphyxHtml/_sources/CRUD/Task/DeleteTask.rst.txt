@@ -1,0 +1,73 @@
+Delete Task
+========================
+
+Ce module permet d'interagir avec une base de données MySQL et une API PHP pour effectuer des opérations telles que la suppression de tâches.
+
+Configuration de Connexion
+--------------------------
+
+.. code-block:: python
+
+    config = {
+        'user': '379269_admin',
+        'password': 'Kicekifeqoa123*',
+        'host': 'mysql-kicekifeqoa.alwaysdata.net',
+        'database': 'kicekifeqoa_todolist',
+    }
+
+Fonctions
+---------
+
+.. function:: close_connection_BDD(conn, cursor)
+
+    Ferme proprement la connexion à la base de données.
+
+    :param conn: L'objet de connexion à la base de données.
+    :type conn: mysql.connector.connection.MySQLConnection
+    :param cursor: Le curseur de la base de données.
+    :type cursor: mysql.connector.cursor.CursorBase
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        close_connection_BDD(conn, cursor)
+
+---
+
+.. function:: delete_task(table, column, value)
+
+    Envoie une requête DELETE à l'API PHP pour supprimer une entrée spécifique dans une table.
+
+    :param table: Le nom de la table où se trouve la donnée à supprimer.
+    :type table: str
+    :param column: Le nom de la colonne utilisée pour la condition de suppression.
+    :type column: str
+    :param value: La valeur correspondant à l'entrée à supprimer.
+    :type value: str
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        delete_task("Tasks", "id", "5")
+
+    En cas de succès, la tâche spécifiée sera supprimée de la table.
+
+---
+
+Exemple Complet
+---------------
+
+.. code-block:: python
+
+    # Connexion à la base de données
+    conn = connection.MySQLConnection(**config)
+    cursor = conn.cursor()
+
+    try:
+        # Supprimer une tâche avec l'ID 5
+        delete_task("Tasks", "id", "5")
+        print("Tâche supprimée avec succès.")
+    finally:
+        close_connection_BDD(conn, cursor)

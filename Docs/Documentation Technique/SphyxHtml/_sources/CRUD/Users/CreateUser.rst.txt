@@ -1,0 +1,127 @@
+Create User
+===================
+
+Ce module permet de gérer la création et la validation des utilisateurs en utilisant une API PHP, notamment en vérifiant les emails, les mots de passe et en insérant de nouveaux utilisateurs dans la base de données.
+
+Configuration de l'API
+----------------------
+
+L'URL de l'API est définie comme suit :
+
+.. code-block:: python
+
+    url = "https://kicekifeqoa.alwaysdata.net/api.php"
+
+Fonctions
+---------
+
+.. function:: verfication_doublon_email(E_mail)
+
+    Vérifie si l'email existe déjà dans la base de données.
+
+    :param E_mail: L'adresse email à vérifier.
+    :type E_mail: str
+    :return: Une liste contenant un booléen et un message de confirmation ou d'erreur.
+    :rtype: list
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        result = verfication_doublon_email("test@example.com")
+        print(result)  # [True, 'Mail OK'] ou [False, 'Mail Exist']
+
+---
+
+.. function:: compliance_password(Password)
+
+    Vérifie si le mot de passe respecte les critères de sécurité.
+
+    :param Password: Le mot de passe à vérifier.
+    :type Password: str
+    :return: Une liste contenant un booléen et un message de confirmation ou d'erreur.
+    :rtype: list
+
+    Critères de conformité :
+      - Au moins 8 caractères.
+      - Au maximum 72 caractères (limite de bcrypt).
+      - Contient au moins une lettre majuscule.
+      - Contient au moins une lettre minuscule.
+      - Contient au moins un chiffre.
+      - Contient au moins un caractère spécial parmi `!@#$%^&*(),.?{}|<>`.
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        result = compliance_password("P@ssw0rd123")
+        print(result)  # [True, 'Pass OK']
+
+---
+
+.. function:: is_valid_email(email)
+
+    Vérifie si l'email est valide au niveau du format et du domaine.
+
+    :param email: L'adresse email à vérifier.
+    :type email: str
+    :return: Une liste contenant un booléen et un message de confirmation ou d'erreur.
+    :rtype: list
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        result = is_valid_email("user@example.com")
+        print(result)  # [True, 'Mail OK'] ou [False, 'Mail NOK']
+
+---
+
+.. function:: hash_password(password)
+
+    Hache le mot de passe en utilisant bcrypt.
+
+    :param password: Le mot de passe à hacher.
+    :type password: str
+    :return: Le mot de passe haché en format `bytes`.
+    :rtype: bytes
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        hashed = hash_password("MySecureP@ssword")
+        print(hashed)  # b'$2b$12$...'
+
+---
+
+.. function:: create_user(E_mail, Password)
+
+    Crée un nouvel utilisateur après avoir vérifié l'email, l'unicité de l'email et la conformité du mot de passe.
+
+    :param E_mail: L'adresse email de l'utilisateur.
+    :type E_mail: str
+    :param Password: Le mot de passe de l'utilisateur.
+    :type Password: str
+    :return: Une liste contenant un booléen et un message de confirmation ou d'erreur.
+    :rtype: list
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        result = create_user("newuser@example.com", "P@ssword123!")
+        print(result)  # [True, 'User OK'] ou [False, 'Erreur message']
+
+    Exemple de `post_data` envoyé à l'API :
+
+    .. code-block:: json
+
+        {
+            "table": "Users",
+            "action": "insert",
+            "data": {
+                "email": "newuser@example.com",
+                "password": "$2b$12$..."
+            }
+        }

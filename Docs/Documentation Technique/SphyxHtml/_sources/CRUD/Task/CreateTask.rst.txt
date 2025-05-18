@@ -1,0 +1,97 @@
+Create Task
+========================
+
+Ce module permet d'interagir avec une base de données MySQL et une API PHP pour effectuer des opérations telles que l'insertion de tâches et la récupération d'ID après l'ajout de données.
+
+Configuration de Connexion
+--------------------------
+
+.. code-block:: python
+
+    config = {
+        'user': '379269_admin',
+        'password': 'Kicekifeqoa123*',
+        'host': 'mysql-kicekifeqoa.alwaysdata.net',
+        'database': 'kicekifeqoa_todolist',
+    }
+
+Fonctions
+---------
+
+.. function:: close_connection_BDD(conn, cursor)
+
+    Ferme proprement la connexion à la base de données.
+
+    :param conn: L'objet de connexion à la base de données.
+    :type conn: mysql.connector.connection.MySQLConnection
+    :param cursor: Le curseur de la base de données.
+    :type cursor: mysql.connector.cursor.CursorBase
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        close_connection_BDD(conn, cursor)
+
+---
+
+.. function:: create_task(table, data)
+
+    Envoie une requête POST à l'API PHP pour insérer une nouvelle tâche dans une table spécifiée.
+
+    :param table: Le nom de la table dans laquelle insérer les données.
+    :type table: str
+    :param data: Un dictionnaire contenant les colonnes et les valeurs à insérer.
+    :type data: dict
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        create_task("Tasks", {"title": "Acheter du lait", "status": "en cours"})
+
+    En cas d'erreur, la fonction imprime le message d'erreur.
+
+---
+
+.. function:: add_recup(data)
+
+    Ajoute des données à une table via l'API PHP et retourne l'ID généré après l'insertion.
+
+    :param data: Un dictionnaire contenant le nom de la table et les données à insérer.
+    :type data: dict
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        data = {"Users": {"name": "John Doe", "email": "john.doe@example.com"}}
+        user_id = add_recup(data)
+        print(f"ID de l'utilisateur ajouté : {user_id}")
+
+    Retourne :
+        - **int** : L'ID généré après l'insertion en cas de succès.
+        - **None** : En cas d'erreur (affiche également le statut de l'erreur).
+
+---
+
+Exemple Complet
+---------------
+
+.. code-block:: python
+
+    # Connexion à la base de données
+    conn = connection.MySQLConnection(**config)
+    cursor = conn.cursor()
+
+    try:
+        # Ajouter une tâche
+        create_task("Tasks", {"title": "Faire le ménage", "status": "terminé"})
+
+        # Ajouter un utilisateur et récupérer son ID
+        user_data = {"Users": {"name": "Alice", "email": "alice@example.com"}}
+        user_id = add_recup(user_data)
+        if user_id:
+            print(f"Utilisateur ajouté avec l'ID : {user_id}")
+    finally:
+        close_connection_BDD(conn, cursor)

@@ -1,0 +1,82 @@
+Read Task
+====================
+
+Ce module permet d'interagir avec une API PHP pour récupérer des données depuis une table et filtrer des tâches en fonction de divers paramètres.
+
+Configuration de l'API
+----------------------
+
+L'URL de l'API est définie comme suit :
+
+.. code-block:: python
+
+    url = "https://kicekifeqoa.alwaysdata.net/api.php"
+
+Fonctions
+---------
+
+.. function:: get_data(table, columns='*', filter_column=None, filter_value=None, join_table=None, join_condition=None)
+
+    Récupère des données d'une table spécifique avec des options de filtrage et de jointure.
+
+    :param table: Le nom de la table à interroger.
+    :type table: str
+    :param columns: Les colonnes à récupérer (par défaut `' * '` pour toutes les colonnes).
+    :type columns: str
+    :param filter_column: Le nom de la colonne utilisée pour le filtrage.
+    :type filter_column: str, optionnel
+    :param filter_value: La valeur utilisée pour le filtrage.
+    :type filter_value: str, optionnel
+    :param join_table: Le nom de la table à joindre.
+    :type join_table: str, optionnel
+    :param join_condition: La condition de jointure.
+    :type join_condition: str, optionnel
+    :return: Un dictionnaire JSON contenant les résultats ou un message d'erreur en cas d'échec.
+    :rtype: dict ou str
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        # Récupérer toutes les colonnes de la table "Task" filtrées par l'ID de tâche
+        tasks = get_data("Task", filter_column="id_task", filter_value=5)
+        print(tasks)
+
+---
+
+.. function:: get_task(id_task=None, name=None, end_date=None, checked=None, priority=None, tag=None, user_id=None)
+
+    Récupère des informations sur une ou plusieurs tâches en fonction des filtres dynamiques fournis.
+
+    :param id_task: L'ID de la tâche.
+    :type id_task: int, optionnel
+    :param name: Le nom de la tâche.
+    :type name: str, optionnel
+    :param end_date: La date d'échéance de la tâche au format `'YYYY-MM-DD HH:mm:SS'`.
+    :type end_date: str, optionnel
+    :param checked: L'état de la tâche (1 pour cochée, 0 pour non cochée).
+    :type checked: int, optionnel
+    :param priority: La priorité de la tâche.
+    :type priority: int, optionnel
+    :param tag: Le tag associé à la tâche.
+    :type tag: str, optionnel
+    :param user_id: L'ID de l'utilisateur pour filtrer les tâches associées à cet utilisateur.
+    :type user_id: int, optionnel
+    :return: Une liste de dictionnaires contenant les informations des tâches ou `'no existing links'` si aucune correspondance n'est trouvée.
+    :rtype: list ou str
+
+    Exemple d'utilisation :
+
+    .. code-block:: python
+
+        # Récupérer une tâche spécifique avec l'ID 10
+        task = get_task(id_task=10)
+        print(task)
+
+        # Récupérer toutes les tâches associées à l'utilisateur avec l'ID 3
+        user_tasks = get_task(user_id=3)
+        print(user_tasks)
+
+        # Récupérer des tâches avec plusieurs filtres (nom et priorité)
+        filtered_tasks = get_task(name="Faire les courses", priority=2)
+        print(filtered_tasks)
